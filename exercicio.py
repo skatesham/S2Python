@@ -2,33 +2,16 @@
 # Só podem ser usadas as estruturas Pilha e Fila implementadas em aulas anteriores.
 # Deve ter análise de tempo e espaço para função avaliação
 
-class PilhaVaziaErro(Exception):
-    pass
+def num(s):
+    try:
+        s = int(s)
+        return True
+    except ValueError:
+        return False
 
-class Pilha():
-    def __init__(self):
-        self.lista = []
-
-    def empilhar(self, valor):
-        self.lista.append(valor)
-
-    def vazia(self):
-        return not bool(self.lista)
-
-    def topo(self):
-        try:
-            return self.lista[-1]
-        except IndexError:
-            raise PilhaVaziaErro
-
-    def desempilhar(self):
-
-        if (self.lista):
-            return self.lista.pop(-1)
-        else:
-            raise PilhaVaziaErro
 
 from aula5.fila import Fila
+from aula5.pilha import Pilha
 
 
 class ErroLexico(Exception):
@@ -49,20 +32,14 @@ def analise_lexica(expressao):
     :return: fila com tokens
     """
 
-    def num(s):
-        try:
-            s = int(s)
-            return True
-        except ValueError:
-            return False
-
     def caracteres(param1):
         return param1 in "(){.}[]+-*/"
+
     fila = Fila()
     count = 0
     pilha = Pilha()
     while count != len(expressao):
-        if not(caracteres(expressao[count]) or num(expressao[count])):
+        if not (caracteres(expressao[count]) or num(expressao[count])):
             raise ErroLexico
         else:
             if caracteres(expressao[count]):
@@ -74,7 +51,7 @@ def analise_lexica(expressao):
                     pilha.empilhar(expressao[count])
                 else:
                     final = pilha.desempilhar()
-                    pilha.empilhar(final+expressao[count])
+                    pilha.empilhar(final + expressao[count])
         count += 1
     if not pilha.vazia():
         fila.enfileirar(pilha.desempilhar())
@@ -89,7 +66,27 @@ def analise_sintatica(fila):
     :param fila: fila proveniente de análise lexica
     :return: fila_sintatica com elementos tokens de numeros
     """
-    pass
+    novafila = Fila()
+    if fila.vazia():
+        raise ErroSintatico;
+    save = ''
+    while not fila.vazia():
+        item = fila.desenfileirar()
+        if num(item):
+            save = int(item)
+            if fila.vazia():
+                novafila.enfileirar(save)
+                return novafila
+            if fila.primeiro() != '.':
+                novafila.enfileirar(save)
+        elif item == '.':
+            item = fila.desenfileirar()
+            save = float(save)
+            save += (float(item)) / (10 ** (len(item)))
+            novafila.enfileirar(save)
+        else:
+            novafila.enfileirar(item)
+    return novafila
 
 
 def avaliar(expressao):
@@ -98,8 +95,29 @@ def avaliar(expressao):
     :param expressao: string com expressão aritmética
     :return: valor númerico com resultado
     """
-    pass
-
+    fila = analise_sintatica(analise_lexica(expressao))
+    if fila.vazia():
+        raise ErroSintatico  # corrigido erro Vazio
+    item = fila.desenfileirar()
+    if num(item):
+        valor = item
+    if fila.vazia():
+        return item
+    while not fila.vazia():  # iteração da fila
+        item = fila.desenfileirar()  # Desenfileiramento
+        if num(item) or item in ('+-*/'):  # Condição Excluir Parenteses
+            if not num(item):
+                if item in '*':  # Interpletando Caractere
+                    valor *= fila.desenfileirar()  # Função proximo da fila valor elo proximo lista
+                if item in '/':  # Interpletando Caractere
+                    valor /= fila.desenfileirar()  # Função proximo da fila valor elo proximo lista
+                if item in '+':  # Interpletando Caractere
+                    valor += fila.desenfileirar()  # Função proximo da fila valor elo proximo lista
+                if item in '-':  # Interpletando Caractere
+                    valor -= fila.desenfileirar()  # Função proximo da fila valor elo proximo lista
+            else:
+                valor = item
+    return valor #Retorno com Valor
 
 import unittest
 
@@ -232,7 +250,7 @@ class AnaliseSintaticaTestes(unittest.TestCase):
 
 class AvaliacaoTestes(unittest.TestCase):
     def test_expressao_vazia(self):
-        self.assertRaises(ErroSintatico, avaliar, '')
+        self.assertRaises(ErroSintatico, avaliar,(''))
 
     def test_inteiro(self):
         self.assert_avaliacao('1')
