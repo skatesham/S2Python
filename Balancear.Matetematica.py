@@ -102,3 +102,4 @@ class BalancearTestes(unittest.TestCase):
 
     def test_expressao_matematica_valida(self):
         self.assertTrue(esta_balanceada('({[1+3]*5}/7)+9'))
+        
