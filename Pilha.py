@@ -58,3 +58,4 @@ class PilhaTestes(unittest.TestCase):
         for letra_em_ordem_reversa in reversed(letras):
             letra_desempilhada = pilha.desempilhar()
             self.assertEqual(letra_em_ordem_reversa, letra_desempilhada)
+
