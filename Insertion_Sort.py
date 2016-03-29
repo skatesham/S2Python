@@ -1,20 +1,24 @@
 import unittest
 
+
 def insertion_sort(seq):
+    flag = 0
     if not seq:
         return seq
     if len(seq) == 1:
         return seq
-    count = 1
-    for point in range(count, len(seq)):
-        i = count
-        while True:
-            if min(seq[i],seq[i - 1]):
-                seq[i], seq[i - 1] = seq[i - 1], seq[i]
-            i -= 1
-            if i==0:
+    for i in range(1, len(seq)):
+        count = i
+        while count == 0:
+            count -= 1
+            if min(seq[i], seq[count]):
+                flag = 1
+            elif flag == 0:
                 break
+            else:
+                seq[i], seq[count] = seq[count], seq[i]
     return seq
+
 
 class OrdenacaoTestes(unittest.TestCase):
     def teste_lista_vazia(self):
