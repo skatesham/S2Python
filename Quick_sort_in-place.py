@@ -34,7 +34,7 @@ def quick_sort(seq):
     Programa que organiza itens de uma lista com metodo quick sort in place
     Tempo em O(log n) e Espaço O(1) + h
     :param seq: uma lista
-    :return: seq: Sequencia ordenada
+    :return: seq: uma lista
     '''
     return _quick_recursivo(seq, 0, len(seq) - 1)
 
