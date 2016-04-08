@@ -1,9 +1,3 @@
-'''Poderia alguém me dizer como termino esse meu código,
-é uma estrutura de organização de dados Quick Sort In-place, Tempo O(n log(n)) e espaço de O(1)+ Pilha da recursão,
-estou a um bom tempo tentando resolver mas cheguei em um momento que estou induzido ao um erro de lógica meu...
-se poder fazer um comit com comentários no meu GitHub ou dar uma responta agradeço...
-Mais rapido que poder obrigado'''
-
 import unittest
 import random
 
