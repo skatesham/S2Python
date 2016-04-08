@@ -23,11 +23,10 @@ def _quick_recursivo(seq, inicio, final):
                 else:
                     seq[i_esquerdo], seq[i_direito] = seq[i_direito], seq[i_esquerdo]
                     break
-
-    if pivot >= seq[i_direito]:
-        return _quick_recursivo(seq, inicio, indice_pivot-1) + [seq[indice_pivot]]
-    elif pivot < seq[inicio]:
-        return [seq[indice_pivot]] + _quick_recursivo(seq,inicio, indice_pivot-1)
+    if pivot <= inicio:
+        return [seq[indice_pivot]] + _quick_recursivo(seq, inicio, indice_pivot-1)
+    elif pivot >= indice_pivot-1:
+        return _quick_recursivo(seq,inicio, indice_pivot-1)+ [seq[indice_pivot]]
     return _quick_recursivo(seq, inicio, i_esquerdo-1) + [seq[indice_pivot]] + _quick_recursivo(seq, i_esquerdo, indice_pivot-1)
 
 def quick_sort(seq):
