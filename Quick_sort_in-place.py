@@ -30,6 +30,12 @@ def _quick_recursivo(seq, inicio, final):
     return _quick_recursivo(seq, inicio, i_esquerdo-1) + [seq[indice_pivot]] + _quick_recursivo(seq, i_esquerdo, indice_pivot-1)
 
 def quick_sort(seq):
+    '''
+    Programa que organiza itens de uma lista com metodo quick sort in place
+    Tempo em O(log n) e Espaço O(1) + h
+    :param seq: uma lista
+    :return: seq: Sequencia ordenada
+    '''
     return _quick_recursivo(seq, 0, len(seq) - 1)
 
 
