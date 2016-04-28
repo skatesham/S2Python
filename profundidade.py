@@ -14,11 +14,19 @@ class Noh:
 
 
 class Arvore:
-    pass
+    def __init__(self, raiz = None):
+        self.raiz = raiz
+
+    def altura(self):
+        return 0
+
+    def __iter__(self):
+        while 1:
+            return 0
+
 
 
 from unittest.case import TestCase
-
 
 class NohTestes(TestCase):
     def teste_init_com_defaults(self):
