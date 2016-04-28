@@ -8,8 +8,10 @@ class Noh:
     def adicionar(self, filho):
         if self.filho_esquerdo == None:
             self.filho_esquerdo = filho
+            filho.pai = self
         else:
             self.irmao_direito = filho
+            filho.pai = self
 
 
 
@@ -21,8 +23,8 @@ class Arvore:
         return 0
 
     def __iter__(self):
-        while 1:
-            return 0
+        pass
+
 
 
 
